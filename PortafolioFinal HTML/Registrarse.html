@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar</title>
+</head>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Jersey+25&family=Quicksand:wght@300..700&family=Space+Grotesk:wght@300..700&display=swap"
+    rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Jersey+25&display=swap" rel="stylesheet">
+
+<body>
+    <script>
+        // Esperamos a que la página cargue por completo
+        document.addEventListener('DOMContentLoaded', function () {
+            const formRegistro = document.querySelector('.Formularioregisto');
+
+            formRegistro.addEventListener('submit', function (evento) {
+                evento.preventDefault(); // Detiene la redirección automática
+
+                const nombre = document.getElementById('nombre').value.trim();
+                const correo = document.getElementById('correo').value.trim();
+                const contraseña = document.getElementById('contraseña').value;
+                const confirmacion = document.getElementById('confirmacion').value;
+
+                //Validar que las contraseñas coincidan
+                if (contraseña !== confirmacion) {
+                    alert("❌ Las contraseñas no coinciden. Porfavor vuelva a intentarlo.");
+                    return;
+                }
+
+                //Traer la base de datos de localStorage
+                let usuariosRegistrados = JSON.parse(localStorage.getItem('usuarios')) || [];
+
+                //Validar si el usuario o correo ya existen
+                const correoExiste = usuariosRegistrados.some(u => u.correo === correo);
+                const nombreExiste = usuariosRegistrados.some(u => u.nombre === nombre);
+
+                if (correoExiste || nombreExiste) {
+                    alert("❌ Este usuario o correo ya está registrado. Porfavor ingrese uno nuevo.");
+                    return;
+                }
+
+                //Guardar si todo está bien
+                const nuevoUsuario = {
+                    nombre: nombre,
+                    correo: correo,
+                    contraseña: contraseña
+                };
+
+                usuariosRegistrados.push(nuevoUsuario);
+                localStorage.setItem('usuarios', JSON.stringify(usuariosRegistrados));
+
+                window.location.href = 'Login.html'; // Redirige manualmente al login
+            });
+        });
+    </script>
+    <style>
+        body {
+            margin: 0;
+            background-image: url("fondo2.png");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            color: white;
+            font-family: "Space Grotesk", sans-serif;
+
+        }
+
+        .fondo {
+            width: 90%;
+            max-width: 1400px;
+            min-height: 600px;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 90px auto;
+            background-color: rgb(5, 5, 63);
+        }
+
+        @media (max-width: 900px) {
+            .contboton {
+                grid-template-columns: 1fr;
+
+            }
+
+            .fondo {
+                width: 95%;
+                padding: 15px;
+            }
+
+            h1.titulo {
+                font-size: 50px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .encabezado {
+                justify-content: center;
+                text-align: center;
+            }
+
+            .contenedorazo {
+                grid-template-columns: 1fr;
+            }
+
+            .FormularioIniciosesion,
+            .formulario1,
+            .Formularioregisto {
+                width: 90%;
+            }
+        }
+
+        .logo {
+            width: 250px;
+            filter: drop-shadow(7px 6px 6px rgb(2, 0, 146));
+            animation: latido 2s ease-in-out infinite;
+
+        }
+
+        @keyframes latido {
+
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.5);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+
+        }
+
+        h4.Titutlologo {
+            text-shadow:
+                2px -2px 1px rgb(0, 54, 124),
+                -2px 2px 1px rgb(0, 54, 124),
+                3px -3px 2px rgb(171, 165, 255),
+                -3px 3px 2px rgb(171, 165, 255),
+                4px -4px 2px rgb(0, 54, 124),
+                -4px 4px 2px rgb(0, 54, 124);
+            font-family: "Jersey 25", sans-serif;
+            font-weight: bold(400);
+            font-style: oblique;
+            font-size: 30px;
+        }
+
+        h1.titulo {
+            text-shadow:
+                3px -3px 2px rgb(0, 54, 124),
+                -3px 3px 2px rgb(0, 54, 124),
+                4px -4px 2px rgb(171, 165, 255),
+                -4px 4px 2px rgb(171, 165, 255),
+                6px -6px 2px rgb(0, 54, 124),
+                -6px 6px 2px rgb(0, 54, 124);
+
+            font-family: "Jersey 25", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 80px;
+        }
+
+        .encabezado {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .Formularioregisto {
+
+            font-size: 17px;
+            width: 100%;
+            max-width: 550px;
+            margin: 0;
+            border-radius: 12px;
+
+            text-shadow:
+                1px 1px 2px rgb(54, 49, 124),
+                2px 2px 3px rgb(84, 78, 167);
+            background: rgb(195, 176, 137);
+            color: rgb(12, 39, 90);
+            padding: 1.5rem;
+
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 15px;
+            align-items: center;
+        }
+
+        input {
+            font-size: 17px;
+            color: rgb(1, 1, 120);
+
+        }
+
+        .seleccion {
+            font-size: 17px;
+            color: rgb(1, 1, 120);
+        }
+
+        .contboton {
+            margin: 3px;
+            width: 90%;
+            max-width: 950px;
+            height: 90px;
+            border-radius: 12px;
+
+            background: rgb(0, 11, 110);
+            color: rgb(162, 194, 255);
+            padding: 1.2rem;
+
+            text-wrap: wrap;
+        }
+
+        .botones {
+
+            display: flex;
+            flex-direction: flex-end;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .boton {
+            background-color: rgb(0, 0, 0);
+            color: white;
+            font-family: "Jersey 25", sans-serif;
+            font-size: large;
+            min-width: 150px;
+            max-width: 200px;
+
+            padding: 8px;
+            border-radius: 12px;
+
+            text-shadow:
+                -1px 1px 1px rgb(5, 127, 94),
+                -3px 3px 2px rgb(8, 86, 65);
+
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 1s;
+        }
+
+        .boton:hover {
+            transform: scale(1.1);
+            background-color: rgb(35, 35, 35);
+        }
+
+
+        .redes {
+            display: grid;
+            grid-template-columns: auto auto;
+            justify-content: start;
+            gap: 30px;
+
+        }
+
+        .contenedor1 {
+            margin: 5px;
+            width: 90%;
+            max-width: 350px;
+            height: 100px;
+            border-radius: 12px;
+
+            font-size: 15px;
+            background: rgba(56, 0, 145, 0.24);
+            color: white;
+            padding: 1.5rem;
+            text-wrap: wrap;
+            font-weight: 300;
+            text-wrap: wrap;
+            font-style: oblique;
+            text-shadow: -2px 2px 3px rgb(0, 0, 0);
+            text-emphasis: "♥" red;
+            text-emphasis-position: under right;
+
+        }
+    </style>
+    <section class="fondo">
+        <h4 class="Titutlologo">RESCATE SABROSON</h4>
+        <section class="encabezado">
+            <img src="logo.png" class="logo"><br>
+            <section class="contboton">
+                <section class="botones">
+                    <a href="Inicio.html">
+                        <button class="boton">Lista de pedidos</button>
+                    </a>
+                    <a href="Menú.html">
+                        <button class="boton">Menú</button>
+                    </a>
+                    <a href="Pedido.html">
+                        <button class="boton">Realice su pedido</button>
+                    </a>
+                    <a href="Pedidos.html">
+                        <button class="boton">Lista de pedidos</button>
+                    </a>
+                    <a href="ofertas.html">
+                        <button class="boton">Ofertas especiales</button>
+                    </a>
+                    <a href="Login.html">
+                        <button class="boton">Login</button>
+                    </a>
+                    <a href="Registrarse.html">
+                        <button class="boton">Registrese</button>
+                        <a>
+                            <button class="boton"
+                                onclick="localStorage.removeItem('sesionActiva'); window.location.href='Inicio.html';">
+                                Cerrar sesión</button>
+                        </a>
+                </section>
+            </section>
+        </section>
+        <h1 class="titulo"><strong>Registrar usuario</strong></h1>
+        <p>Crea tu cuenta para comenzar a relizar tus pedidos con un descuento increible.</p>
+
+        <form class="Formularioregisto">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" required />
+
+            <label for="apellido">Apellido</label>
+            <input type="text" id="apellido" name="apellido" required />
+
+            <label for="documento">Tipo de Documento:</label>
+            <select class="seleccion" id="documento" name="documento">
+                <option value="dni">DNI</option>
+                <option value="carnet">Carnet de extrangeria</option>
+            </select>
+            <label for="numdocumento">Número de Documento:</label>
+            <input type="number" id="numdocumento" name="documento" required>
+
+            <label for="correo">Correo electrónico</label>
+            <input type="text" id="correo" name="correo" required />
+            <label for="contraseña">Contraseña</label>
+            <input type="password" id="contraseña" name="contraseña" required />
+
+            <label for="confirmacion">Confirmar Contraseña</label>
+            <input type="password" id="confirmacion" name="confirmacion" required />
+
+            <section class="checkbox-container">
+                <label>
+                    <input type="checkbox" name="terminos" required />
+                    Acepto los términos y condiciones
+                </label>
+            </section>
+
+            <button class="boton" type="submit">Registrarse</button>
+        </form>
+    </section>
+    <footer>
+        <section class="redes">
+            <section class="contenedor1">
+
+                <p class="copyrigth"> &copy; Rescatesabroson@gmail.com</p>
+            </section>
+            <section class="contenedor1">
+                <p>instagram</p>
+                <a href="https://www.instagram.com/rescate_sabroson?igsh=MXU1NjVrbDFtOWI4dg==">
+
+                    <img src="insta.png" class="insta" style="width: 50px;">
+                </a>
+            </section>
+        </section>
+    </footer>
+</body>
+
+</html>
